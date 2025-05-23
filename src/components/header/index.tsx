@@ -1,6 +1,6 @@
 import { HeaderContainer } from './style';
 
-import logo from '../../assets/github-blog-logo.svg';
+import logo from '../../assets/icones/github-blog-logo.svg';
 import effectEsq from '../../assets/effect-header-esq.svg';
 import effectDir from '../../assets/effect-header-dir.svg';
 
