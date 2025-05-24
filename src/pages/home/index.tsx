@@ -1,9 +1,10 @@
-import { FormContainerPublicacoes, InfoAuthorContainer } from './style';
+import { ContainerListPost, FormContainerPublicacoes, InfoAuthorContainer } from './style';
 import logoAvatar from '../../assets/avatar.svg';
 import iconeGitHub from '../../assets/icones/github-brands.svg';
 import iconeBuilding from '../../assets/icones/building.svg';
 import iconeUser from '../../assets/icones/user-group.svg';
 import iconeArrowUpRight from '../../assets/icones/arrow-up-right-from-square.svg';
+import { Post } from '../../components/post';
 
 export function Home() {
   return (
@@ -46,6 +47,13 @@ export function Home() {
 
         <input type="text" placeholder="Buscar conteúdo" />
       </FormContainerPublicacoes>
+
+      <ContainerListPost>
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+      </ContainerListPost>
     </>
   );
 }

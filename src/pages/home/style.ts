@@ -84,5 +84,16 @@ export const FormContainerPublicacoes = styled.form`
     &::placeholder {
       color: ${(props) => props.theme['base-label']};
     }
+
+    &:focus {
+      border-color: ${(props) => props.theme['blue']};
+    }
   }
+`;
+
+export const ContainerListPost = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 3rem 0 7rem;
 `;
