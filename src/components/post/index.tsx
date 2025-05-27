@@ -1,23 +1,24 @@
 import { NavLink } from 'react-router-dom';
 import { ContainerPost } from './style';
+import type { IPost } from '../../interface/IPost';
 
-export function Post() {
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+
+export function Post(props: IPost) {
   return (
     <NavLink to="/infoPost" style={{ textDecoration: 'none' }}>
       <ContainerPost>
         <div>
-          <h3>JavaScript data types and data structures</h3>
-          <span>Há 1 dia</span>
+          <h3>{props.title}</h3>
+          <span>
+            {formatDistanceToNow(props.created_at, {
+              addSuffix: true,
+              locale: ptBR,
+            })}
+          </span>
         </div>
-        <p>
-          Programming languages all have built-in data structures, but these often differ from one language to another.
-          This article attempts to list the built-in data structures available in JavaScript and what properties they
-          have. These can be used to build other data structures. Wherever possible, comparisons with other languages
-          are drawn. Dynamic typing JavaScript is a loosely typed and dynamic language. Variables in JavaScript are not
-          directly associated with any particular value type, and any variable can be assigned (and re-assigned) values
-          of all types: let foo = 42; // foo is now a number foo = 'bar'; // foo is now a string foo = true; // foo is
-          now a boolean
-        </p>
+        <p>{props.body}</p>
       </ContainerPost>
     </NavLink>
   );

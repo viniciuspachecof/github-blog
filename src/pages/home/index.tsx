@@ -5,8 +5,12 @@ import iconeBuilding from '../../assets/icones/building.svg';
 import iconeUser from '../../assets/icones/user-group.svg';
 import iconeArrowUpRight from '../../assets/icones/arrow-up-right-from-square.svg';
 import { Post } from '../../components/post';
+import { useContext } from 'react';
+import { PostsContext } from '../../contexts/PostsContext';
 
 export function Home() {
+  const { posts } = useContext(PostsContext);
+
   return (
     <>
       <InfoAuthorContainer>
@@ -49,10 +53,9 @@ export function Home() {
       </FormContainerPublicacoes>
 
       <ContainerListPost>
-        <Post />
-        <Post />
-        <Post />
-        <Post />
+        {posts.map((post) => (
+          <Post key={post.id} {...post} />
+        ))}
       </ContainerListPost>
     </>
   );
