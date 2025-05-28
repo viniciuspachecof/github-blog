@@ -1,43 +1,60 @@
 import { ContainerListPost, FormContainerPublicacoes, InfoAuthorContainer } from './style';
-import logoAvatar from '../../assets/avatar.svg';
 import iconeGitHub from '../../assets/icones/github-brands.svg';
 import iconeBuilding from '../../assets/icones/building.svg';
 import iconeUser from '../../assets/icones/user-group.svg';
 import iconeArrowUpRight from '../../assets/icones/arrow-up-right-from-square.svg';
 import { Post } from '../../components/post';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PostsContext } from '../../contexts/PostsContext';
 
 export function Home() {
-  const { posts } = useContext(PostsContext);
+  const { posts, user, fetchPosts } = useContext(PostsContext);
+
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [search]);
+
+  useEffect(() => {
+    buscarPost(debouncedSearch);
+  }, [debouncedSearch]);
+
+  function buscarPost(query: string) {
+    fetchPosts(query);
+  }
 
   return (
     <>
       <InfoAuthorContainer>
-        <img src={logoAvatar} />
+        <img className="img-usuario" src={user.avatar_url} />
         <div className="info-usuario">
           <div className="nome-usuario">
-            <h2>Vinicius Pacheco Ferreira</h2>
-            <a href="https://github.com/" target="_blank">
-              GITHUB <img src={iconeArrowUpRight} />{' '}
+            <h2>{user.name}</h2>
+            <a href={user.html_url} target="_blank">
+              GITHUB <img src={iconeArrowUpRight} />
             </a>
           </div>
-          <p>
-            Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu viverra massa quam dignissim aenean
-            malesuada suscipit. Nunc, volutpat pulvinar vel mass.
-          </p>
+          <p>{user.bio}</p>
           <div className="perfil-usuario">
             <span>
               <img src={iconeGitHub} />
-              viniciuspachecof
+              {user.login}
             </span>
             <span>
               <img src={iconeBuilding} />
-              Rocketseat
+              {user.company}
             </span>
             <span>
               <img src={iconeUser} />
-              32 seguidores
+              {user.followers > 1 ? `${user.followers} seguidores` : `${user.followers} seguidor`}
             </span>
           </div>
         </div>
@@ -46,10 +63,10 @@ export function Home() {
       <FormContainerPublicacoes>
         <div>
           <span>Publicações</span>
-          <span>6 publicações</span>
+          <span>{posts.length === 1 ? `${posts.length} publicação` : `${posts.length} publicações`}</span>
         </div>
 
-        <input type="text" placeholder="Buscar conteúdo" />
+        <input type="text" placeholder="Buscar conteúdo" onChange={(e) => setSearch(e.target.value)} />
       </FormContainerPublicacoes>
 
       <ContainerListPost>

@@ -49,9 +49,4 @@ export const InfoPostContainer = styled.div`
 
 export const InfoDefailPostContainer = styled.div`
   padding: 2.5rem 2rem;
-
-  p {
-    font-weight: 1rem;
-    color: ${(props) => props.theme['base-text']};
-  }
 `;

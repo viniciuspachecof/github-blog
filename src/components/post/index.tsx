@@ -4,21 +4,24 @@ import type { IPost } from '../../interface/IPost';
 
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import Markdown from 'react-markdown';
 
-export function Post(props: IPost) {
+export function Post({ title, created_at, body, number }: IPost) {
   return (
-    <NavLink to="/infoPost" style={{ textDecoration: 'none' }}>
+    <NavLink to={`/infoPost/${number}`} style={{ textDecoration: 'none' }}>
       <ContainerPost>
-        <div>
-          <h3>{props.title}</h3>
+        <div className="titulo-post">
+          <h3>{title}</h3>
           <span>
-            {formatDistanceToNow(props.created_at, {
+            {formatDistanceToNow(created_at, {
               addSuffix: true,
               locale: ptBR,
             })}
           </span>
         </div>
-        <p>{props.body}</p>
+        <div className="body-post">
+          <Markdown>{body}</Markdown>
+        </div>
       </ContainerPost>
     </NavLink>
   );

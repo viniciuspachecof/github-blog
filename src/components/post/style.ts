@@ -8,7 +8,7 @@ export const ContainerPost = styled.div`
   transition: border-color 0.4s;
   cursor: pointer;
 
-  div {
+  .titulo-post {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
@@ -29,16 +29,14 @@ export const ContainerPost = styled.div`
     }
   }
 
-  p {
+  .body-post {
     font-size: 1rem;
     color: ${(props) => props.theme['base-text']};
     line-height: 1.5em; /* Altura de linha */
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    max-height: calc(1.5em * 4);
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* número de linhas */
+    -webkit-box-orient: vertical;
   }
 
   &:hover {

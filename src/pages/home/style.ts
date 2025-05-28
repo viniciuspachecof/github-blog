@@ -9,7 +9,14 @@ export const InfoAuthorContainer = styled.div`
   margin-top: calc(0px - 6.625rem);
   border-radius: 0.625rem;
 
+  .img-usuario {
+    max-width: 9.25rem;
+    border-radius: 0.5rem;
+  }
+
   .info-usuario {
+    flex: 1;
+
     .nome-usuario {
       display: flex;
       justify-content: space-between;

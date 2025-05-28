@@ -8,7 +8,7 @@ export function Router() {
     <Routes>
       <Route path="/" element={<DefaultLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/infoPost" element={<InfoPost />} />
+        <Route path="/infoPost/:numberPost" element={<InfoPost />} />
         <Route />
       </Route>
     </Routes>

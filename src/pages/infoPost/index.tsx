@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { InfoDefailPostContainer, InfoPostContainer } from './style';
 
 import iconeChevronLeft from '../../assets/icones/chevron-left.svg';
@@ -6,8 +6,40 @@ import iconeArrowUpRight from '../../assets/icones/arrow-up-right-from-square.sv
 import iconeGitHub from '../../assets/icones/github-brands.svg';
 import iconeCalendarDay from '../../assets/icones/calendar-day.svg';
 import iconeComment from '../../assets/icones/comment.svg';
+import { useCallback, useEffect, useState } from 'react';
+import type { IPost } from '../../interface/IPost';
+import { api } from '../../lib/axios';
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import Markdown from 'react-markdown';
 
 export function InfoPost() {
+  const [infoPost, setInfoPost] = useState<IPost>({
+    id: 0,
+    login: '',
+    created_at: new Date(),
+    title: '',
+    body: '',
+    comments: 0,
+    number: 0,
+    html_url: '',
+  });
+
+  const { numberPost } = useParams();
+
+  const fetchInfoPost = useCallback(async () => {
+    const response = await api.get(`repos/viniciuspachecof/github-blog/issues/${numberPost}`);
+
+    const { id, title, body, created_at, comments, number, html_url } = response.data;
+    const login = response.data.user.login;
+
+    setInfoPost({ id, title, body, created_at, comments, login, number, html_url });
+  }, []);
+
+  useEffect(() => {
+    fetchInfoPost();
+  }, []);
+
   return (
     <>
       <InfoPostContainer>
@@ -17,36 +49,33 @@ export function InfoPost() {
             VOLTAR
           </NavLink>
 
-          <a href="https://github.com/">
+          <a href={infoPost.html_url} target="_blank">
             VER NO GITHUB
             <img src={iconeArrowUpRight} />
           </a>
         </div>
-        <p>JavaScript data types and data structures</p>
+        <p>{infoPost.title}</p>
         <div className="perfil-usuario">
           <span>
             <img src={iconeGitHub} />
-            viniciuspachecof
+            {infoPost.login}
           </span>
           <span>
             <img src={iconeCalendarDay} />
-            Há 1 dia
+            {formatDistanceToNow(infoPost.created_at, {
+              addSuffix: true,
+              locale: ptBR,
+            })}
           </span>
           <span>
-            <img src={iconeComment} />5 comentários
+            <img src={iconeComment} />
+            {infoPost.comments > 1 ? `${infoPost.comments} comentários` : `${infoPost.comments} comentário`}
           </span>
         </div>
       </InfoPostContainer>
 
       <InfoDefailPostContainer>
-        <p>
-          Programming languages all have built-in data structures, but these often differ from one language to another.
-          This article attempts to list the built-in data structures available in JavaScript and what properties they
-          have. These can be used to build other data structures. Wherever possible, comparisons with other languages
-          are drawn. Dynamic typing JavaScript is a loosely typed and dynamic language. Variables in JavaScript are not
-          directly associated with any particular value type, and any variable can be assigned (and re-assigned) values
-          of all types:
-        </p>
+        <Markdown>{infoPost.body}</Markdown>
       </InfoDefailPostContainer>
     </>
   );
